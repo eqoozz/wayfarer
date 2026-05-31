@@ -1,4 +1,4 @@
-<!-- v20260531114313 -->
+<!-- v20260531130741 -->
 DOCTYPE html>
 <html lang="en">
 <head>
@@ -1907,34 +1907,66 @@ document.querySelectorAll('.modal-overlay').forEach(el => {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script>
-const CONT_MAP = {
-  'North America': ['4','8','12','24','32','44','52','84','124','136','188','192','214','222','308','332','340','388','484','558','591','630','659','662','670','780','840'],
-  'South America': ['68','76','152','170','218','254','328','332','340','591','600','604','740','858','862'],
-  'Europe': ['8','20','40','56','70','100','112','191','196','203','208','233','246','250','266','276','292','300','336','348','352','372','380','428','438','440','442','450','470','492','498','499','504','516','528','578','616','620','630','642','674','688','703','705','724','752','756','804','807','826','831','832','833'],
-  'Africa': ['12','24','50','72','86','108','120','132','140','174','175','178','180','204','226','231','232','262','266','270','288','324','384','388','404','426','430','434','450','454','466','478','480','484','508','516','562','566','624','646','654','678','686','694','706','710','716','728','729','732','740','768','788','800','818','834','854','862','894'],
-  'Middle East': ['31','48','51','268','364','368','376','400','414','422','512','634','682','760','784','792','887'],
-  'Asia': ['4','50','64','96','104','116','144','156','158','360','392','398','408','410','418','458','462','496','524','586','608','626','643','702','704','706','710','762','764','792','800','860'],
-  'Oceania': ['36','242','296','316','520','540','548','554','570','583','585','598','612','882','798','776']
+// Complete authoritative continent mapping
+// Overseas territories assigned to their geographic location, not their governing country
+const ID_TO_CONT = {
+  // North America (including Caribbean and Central America)
+  124:'North America',840:'North America',484:'North America',
+  320:'North America',340:'North America',222:'North America',558:'North America',
+  188:'North America',591:'North America',192:'North America',214:'North America',
+  332:'North America',388:'North America',780:'North America',84:'North America',
+  659:'North America',662:'North America',670:'North America',308:'North America',
+  28:'North America',212:'North America',44:'North America',52:'North America',
+  630:'North America',136:'North America',474:'North America',500:'North America',
+  531:'North America',533:'North America',534:'North America',535:'North America',
+  796:'North America',850:'North America',92:'North America',660:'North America',
+  652:'North America',663:'North America',666:'North America',312:'North America',
+  60:'North America',304:'North America',
+  // South America — includes French Guiana (254), Suriname, etc by geography
+  76:'South America',32:'South America',152:'South America',170:'South America',
+  218:'South America',604:'South America',862:'South America',68:'South America',
+  600:'South America',740:'South America',858:'South America',328:'South America',
+  254:'South America',238:'South America',
+  // Europe — only continental Europe, NO overseas territories
+  826:'Europe',250:'Europe',276:'Europe',380:'Europe',724:'Europe',620:'Europe',
+  528:'Europe',56:'Europe',756:'Europe',40:'Europe',752:'Europe',578:'Europe',
+  208:'Europe',246:'Europe',372:'Europe',300:'Europe',616:'Europe',642:'Europe',
+  100:'Europe',191:'Europe',703:'Europe',705:'Europe',348:'Europe',203:'Europe',
+  470:'Europe',442:'Europe',438:'Europe',492:'Europe',20:'Europe',674:'Europe',
+  336:'Europe',833:'Europe',831:'Europe',832:'Europe',70:'Europe',499:'Europe',
+  688:'Europe',807:'Europe',8:'Europe',112:'Europe',804:'Europe',498:'Europe',
+  233:'Europe',428:'Europe',440:'Europe',352:'Europe',292:'Europe',744:'Europe',
+  // Africa — every African country including islands
+  12:'Africa',24:'Africa',72:'Africa',86:'Africa',108:'Africa',120:'Africa',
+  132:'Africa',140:'Africa',148:'Africa',174:'Africa',175:'Africa',178:'Africa',
+  180:'Africa',204:'Africa',226:'Africa',231:'Africa',232:'Africa',260:'Africa',
+  262:'Africa',266:'Africa',270:'Africa',288:'Africa',324:'Africa',334:'Africa',
+  384:'Africa',404:'Africa',426:'Africa',430:'Africa',434:'Africa',450:'Africa',
+  454:'Africa',466:'Africa',478:'Africa',480:'Africa',504:'Africa',508:'Africa',
+  516:'Africa',562:'Africa',566:'Africa',624:'Africa',638:'Africa',646:'Africa',
+  654:'Africa',678:'Africa',686:'Africa',690:'Africa',694:'Africa',706:'Africa',
+  710:'Africa',716:'Africa',728:'Africa',729:'Africa',732:'Africa',736:'Africa',
+  740:'Africa',748:'Africa',768:'Africa',788:'Africa',800:'Africa',818:'Africa',
+  834:'Africa',854:'Africa',894:'Africa',
+  // Asia — includes Russia, Middle East, Central Asia, South/SE/East Asia
+  4:'Asia',31:'Asia',48:'Asia',50:'Asia',51:'Asia',64:'Asia',96:'Asia',
+  104:'Asia',116:'Asia',144:'Asia',156:'Asia',158:'Asia',268:'Asia',275:'Asia',
+  344:'Asia',356:'Asia',360:'Asia',364:'Asia',368:'Asia',376:'Asia',392:'Asia',
+  398:'Asia',400:'Asia',408:'Asia',410:'Asia',414:'Asia',417:'Asia',418:'Asia',
+  422:'Asia',446:'Asia',458:'Asia',462:'Asia',496:'Asia',512:'Asia',524:'Asia',
+  586:'Asia',608:'Asia',634:'Asia',643:'Asia',682:'Asia',702:'Asia',704:'Asia',
+  760:'Asia',762:'Asia',764:'Asia',792:'Asia',795:'Asia',784:'Asia',860:'Asia',
+  887:'Asia',626:'Asia',
+  // Oceania
+  36:'Oceania',90:'Oceania',162:'Oceania',166:'Oceania',184:'Oceania',
+  242:'Oceania',258:'Oceania',296:'Oceania',316:'Oceania',520:'Oceania',
+  540:'Oceania',548:'Oceania',554:'Oceania',570:'Oceania',574:'Oceania',
+  583:'Oceania',584:'Oceania',585:'Oceania',598:'Oceania',612:'Oceania',
+  772:'Oceania',776:'Oceania',798:'Oceania',876:'Oceania',882:'Oceania'
 };
 
-// More complete numeric ID to continent mapping using ranges
-function getContinent(numId) {
-  const id = String(numId);
-  // North America
-  if (['840','124','484','320','340','222','558','188','591','192','214','332','388','780','084','659','662','670','308','028','212','044','052','630'].includes(id)) return 'North America';
-  // South America
-  if (['076','032','152','170','218','604','862','068','600','740','858','328','254','740'].includes(id)) return 'South America';
-  // Europe
-  if (['826','250','276','380','724','620','528','056','756','040','752','578','208','246','372','300','616','642','100','191','703','705','348','203','040','372','470','442','438','492','020','674','336','833','831','832','070','499','688','807','008','807','112','804','498','233','428','440','372','352'].includes(id)) return 'Europe';
-  // Middle East
-  if (['682','364','368','784','512','887','400','760','422','376','048','414','634','792','031','051','268'].includes(id)) return 'Middle East';
-  // Africa
-  if (['818','012','504','788','434','729','706','710','404','800','024','516','072','894','716','508','450','466','686','288','384','120','566','562','768','204','854','140','178','180','626','288','324','694','430','478','288','270','132','624','174','262','646','108','706','232','426','748','710','516','072','894','716','508'].includes(id)) return 'Africa';
-  // Asia
-  if (['156','356','360','392','410','704','764','104','116','586','050','524','408','458','096','702','764','418','496','762','860','417','795','762','398','051','031','268','792'].includes(id)) return 'Asia';
-  // Oceania
-  if (['036','554','598','242','090','548','882','776','296','583','585','520','798','316','570','612'].includes(id)) return 'Oceania';
-  return null;
+function getContinent(id) {
+  return ID_TO_CONT[+id] || null;
 }
 
 function initWorldMap() {
@@ -1951,44 +1983,53 @@ function initWorldMap() {
     .attr('height', 'auto')
     .style('display', 'block');
 
+  // Natural Earth1 projection — matches your reference map style
+  // Scale and translate tuned to fill the box tightly
   const projection = d3.geoNaturalEarth1()
-    .scale(160)
-    .translate([W / 2, H / 2]);
+    .scale(W / 5.8)
+    .translate([W / 2, H / 2 + 28]);
 
   const path = d3.geoPath().projection(projection);
 
   d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(world => {
     const countries = topojson.feature(world, world.objects.countries);
-    // Remove Antarctica (id 10)
+    // Remove Antarctica
     const filtered = countries.features.filter(d => +d.id !== 10);
 
-    svg.selectAll('.country')
+    function fillColor(id) {
+      const c = getContinent(id);
+      return c === continent ? 'rgba(212,169,106,0.5)' : 'rgba(255,255,255,0.1)';
+    }
+
+    // Ocean/background
+    svg.append('rect')
+      .attr('width', W).attr('height', H)
+      .style('fill', 'transparent');
+
+    svg.selectAll('path')
       .data(filtered)
       .enter()
       .append('path')
       .attr('d', path)
-      .style('fill', d => getContinent(d.id) === continent ? 'rgba(212,169,106,0.32)' : 'rgba(255,255,255,0.09)')
-      .style('stroke', 'rgba(255,255,255,0.18)')
+      .style('fill', d => fillColor(d.id))
+      .style('stroke', 'rgba(255,255,255,0.2)')
       .style('stroke-width', '0.5')
       .style('cursor', 'pointer')
-      .style('transition', 'fill 0.15s ease')
+      .style('transition', 'fill 0.14s ease')
       .on('mouseover', function(event, d) {
-        const cont = getContinent(d.id);
-        if (!cont) return;
+        const c = getContinent(d.id);
+        if (!c) return;
         svg.selectAll('path').style('fill', dd => {
-          if (dd.id === undefined) return;
+          if (!dd.id) return;
           const dc = getContinent(dd.id);
-          if (dc === continent) return 'rgba(212,169,106,0.32)';
-          return dc === cont ? 'rgba(212,169,106,0.2)' : 'rgba(255,255,255,0.09)';
+          if (dc === continent) return 'rgba(212,169,106,0.5)';
+          return dc === c ? 'rgba(212,169,106,0.28)' : 'rgba(255,255,255,0.1)';
         });
         const lbl = document.getElementById('map-label');
-        if (lbl && cont !== continent) { lbl.textContent = cont; lbl.style.color = 'rgba(212,169,106,0.7)'; }
+        if (lbl) { lbl.textContent = c; lbl.style.color = 'rgba(212,169,106,0.8)'; }
       })
       .on('mouseout', function() {
-        svg.selectAll('path').style('fill', dd => {
-          if (dd.id === undefined) return;
-          return getContinent(dd.id) === continent ? 'rgba(212,169,106,0.32)' : 'rgba(255,255,255,0.09)';
-        });
+        svg.selectAll('path').style('fill', d => fillColor(d.id));
         const lbl = document.getElementById('map-label');
         if (lbl) {
           lbl.textContent = continent ? continent + ' selected' : 'Tap a region';
@@ -1996,15 +2037,12 @@ function initWorldMap() {
         }
       })
       .on('click', function(event, d) {
-        const cont = getContinent(d.id);
-        if (!cont) return;
-        continent = cont;
-        svg.selectAll('path').style('fill', dd => {
-          if (dd.id === undefined) return;
-          return getContinent(dd.id) === cont ? 'rgba(212,169,106,0.32)' : 'rgba(255,255,255,0.09)';
-        });
+        const c = getContinent(d.id);
+        if (!c) return;
+        continent = c;
+        svg.selectAll('path').style('fill', d => fillColor(d.id));
         const lbl = document.getElementById('map-label');
-        if (lbl) { lbl.textContent = cont + ' selected'; lbl.style.color = 'var(--accent)'; }
+        if (lbl) { lbl.textContent = c + ' selected'; lbl.style.color = 'var(--accent)'; }
       });
 
   }).catch(() => {
@@ -2027,8 +2065,6 @@ function switchMode(mode) {
 
 function pickContinent(c) {
   continent = c;
-  const lbl = document.getElementById('map-label');
-  if (lbl) { lbl.textContent = c + ' selected'; lbl.style.color = 'var(--accent)'; }
 }
 </script>
 
