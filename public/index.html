@@ -1,4 +1,4 @@
-<!-- v20260531002437 -->
+<!-- v20260531003046 -->
 DOCTYPE html>
 <html lang="en">
 <head>
@@ -1343,7 +1343,7 @@ footer {
         </div>
       </div>
 
-      <div id="mode-type" class="mode-panel active" style="display:block">
+      <div id="mode-type" style="display:block;">
         <div class="field">
           <label>What kind of trip?</label>
           <div class="vibe-grid">
@@ -1359,68 +1359,57 @@ footer {
         </div>
       </div>
 
-      <div id="mode-cont" class="mode-panel" style="display:none">
+      <div id="mode-cont" style="display:none;">
         <div class="field">
           <label>Select a continent</label>
-          <div class="map-wrap">
-            <svg class="world-map" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
-              <!-- Americas -->
-              <g class="map-region" id="cont-Americas" onclick="pickContinent(this,'Americas')">
-                <title>Americas</title>
-                <!-- North America -->
-                <path d="M 80 60 L 180 50 L 220 80 L 240 120 L 210 160 L 190 200 L 170 220 L 150 210 L 130 230 L 110 220 L 90 180 L 70 140 L 60 100 Z" />
-                <!-- Central America -->
-                <path d="M 150 210 L 170 220 L 165 250 L 155 260 L 145 255 L 140 240 Z" />
-                <!-- South America -->
-                <path d="M 155 260 L 200 250 L 230 270 L 250 320 L 240 380 L 210 420 L 180 430 L 155 400 L 140 360 L 135 310 L 140 280 Z" />
-                <text class="map-label" x="155" y="170">Americas</text>
-              </g>
+          <svg id="world-map" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;border-radius:10px;background:var(--bg-inset);border:1px solid var(--line);cursor:pointer;margin-top:0.5rem;">
 
-              <!-- Europe -->
-              <g class="map-region" id="cont-Europe" onclick="pickContinent(this,'Europe')">
-                <title>Europe</title>
-                <path d="M 420 55 L 480 45 L 530 55 L 550 80 L 540 110 L 510 130 L 490 150 L 460 155 L 430 140 L 410 120 L 400 95 Z" />
-                <text class="map-label" x="475" y="105">Europe</text>
-              </g>
+            <!-- Americas -->
+            <g class="map-region" id="reg-Americas" onclick="pickContinent('Americas')">
+              <path d="M80,60 L180,50 L220,80 L240,120 L210,160 L190,200 L170,220 L150,210 L130,230 L110,220 L90,180 L70,140 L60,100 Z" />
+              <path d="M150,210 L170,220 L165,250 L155,260 L145,255 L140,240 Z" />
+              <path d="M155,260 L200,250 L230,270 L250,320 L240,380 L210,420 L180,430 L155,400 L140,360 L135,310 L140,280 Z" />
+              <text x="150" y="160" class="map-label">Americas</text>
+            </g>
 
-              <!-- Africa -->
-              <g class="map-region" id="cont-Africa" onclick="pickContinent(this,'Africa')">
-                <title>Africa</title>
-                <path d="M 430 165 L 490 160 L 530 170 L 560 200 L 570 250 L 565 310 L 540 360 L 510 390 L 480 400 L 450 390 L 420 355 L 405 300 L 400 240 L 410 195 Z" />
-                <text class="map-label" x="483" y="285">Africa</text>
-              </g>
+            <!-- Europe -->
+            <g class="map-region" id="reg-Europe" onclick="pickContinent('Europe')">
+              <path d="M420,55 L480,45 L530,55 L550,80 L540,110 L510,130 L490,150 L460,155 L430,140 L410,120 L400,95 Z" />
+              <text x="475" y="105" class="map-label">Europe</text>
+            </g>
 
-              <!-- Middle East -->
-              <g class="map-region" id="cont-Middle East" onclick="pickContinent(this,'Middle East')">
-                <title>Middle East</title>
-                <path d="M 545 120 L 610 110 L 650 130 L 660 165 L 640 190 L 600 200 L 565 190 L 545 170 Z" />
-                <text class="map-label" x="600" y="160">Middle East</text>
-              </g>
+            <!-- Africa -->
+            <g class="map-region" id="reg-Africa" onclick="pickContinent('Africa')">
+              <path d="M430,165 L490,160 L530,170 L560,200 L570,250 L565,310 L540,360 L510,390 L480,400 L450,390 L420,355 L405,300 L400,240 L410,195 Z" />
+              <text x="483" y="285" class="map-label">Africa</text>
+            </g>
 
-              <!-- Asia -->
-              <g class="map-region" id="cont-Asia" onclick="pickContinent(this,'Asia')">
-                <title>Asia</title>
-                <path d="M 560 50 L 680 40 L 800 55 L 870 80 L 890 130 L 870 180 L 820 210 L 760 220 L 700 210 L 650 195 L 610 200 L 570 185 L 545 160 L 545 120 L 565 85 Z" />
-                <!-- Southeast Asia peninsula -->
-                <path d="M 800 210 L 830 230 L 825 270 L 805 285 L 790 270 L 785 240 Z" />
-                <text class="map-label" x="720" y="135">Asia</text>
-              </g>
+            <!-- Middle East -->
+            <g class="map-region" id="reg-MiddleEast" onclick="pickContinent('Middle East')">
+              <path d="M545,120 L610,110 L650,130 L660,165 L640,190 L600,200 L565,190 L545,170 Z" />
+              <text x="602" y="158" class="map-label">Middle East</text>
+            </g>
 
-              <!-- Oceania -->
-              <g class="map-region" id="cont-Oceania" onclick="pickContinent(this,'Oceania')">
-                <title>Oceania</title>
-                <path d="M 790 300 L 870 290 L 920 310 L 940 350 L 920 390 L 870 400 L 820 385 L 790 355 L 785 320 Z" />
-                <path d="M 870 410 L 900 405 L 910 425 L 890 435 L 870 425 Z" />
-                <text class="map-label" x="855" y="345">Oceania</text>
-              </g>
-            </svg>
+            <!-- Asia -->
+            <g class="map-region" id="reg-Asia" onclick="pickContinent('Asia')">
+              <path d="M560,50 L680,40 L800,55 L870,80 L890,130 L870,180 L820,210 L760,220 L700,210 L650,195 L610,200 L570,185 L545,160 L545,120 L565,85 Z" />
+              <path d="M800,210 L830,230 L825,270 L805,285 L790,270 L785,240 Z" />
+              <text x="720" y="130" class="map-label">Asia</text>
+            </g>
 
-            <div class="map-selected" id="map-selected-label">Tap a region to select</div>
-          </div>
+            <!-- Oceania -->
+            <g class="map-region" id="reg-Oceania" onclick="pickContinent('Oceania')">
+              <path d="M790,300 L870,290 L920,310 L940,350 L920,390 L870,400 L820,385 L790,355 L785,320 Z" />
+              <path d="M870,410 L900,405 L910,425 L890,435 L870,425 Z" />
+              <text x="855" y="345" class="map-label">Oceania</text>
+            </g>
+
+          </svg>
+          <div id="map-label" style="text-align:center;margin-top:0.6rem;font-size:11px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);min-height:16px;">Tap a region</div>
         </div>
       </div>
 
-      <button class="submit-btn" id="rec-btn" onclick="getDisc()" style="background:var(--text);color:var(--bg);">Find destinations</button>
+      <button class="submit-btn" id="rec-btn" onclick="getDisc()" style="background:var(--text);color:var(--bg);margin-top:1.5rem;">Find destinations</button>
     </div>
 
     <div class="loading" id="disc-loading">
@@ -1429,7 +1418,7 @@ footer {
     </div>
     <div class="err-box" id="disc-err"></div>
     <div id="rec-results"></div>
-  </div>
+  </div></div>
 
 </div>
 
@@ -1485,34 +1474,24 @@ let discMode = 'type';
 
 function switchMode(mode) {
   discMode = mode;
-  // Update buttons
   document.getElementById('mode-type-btn').classList.toggle('active', mode === 'type');
   document.getElementById('mode-cont-btn').classList.toggle('active', mode === 'continent');
-  // Show/hide panels directly
-  const typePanel = document.getElementById('mode-type');
-  const contPanel = document.getElementById('mode-cont');
-  if (mode === 'type') {
-    typePanel.style.display = 'block';
-    contPanel.style.display = 'none';
-  } else {
-    typePanel.style.display = 'none';
-    contPanel.style.display = 'block';
-  }
-  // Reset selections
-  vibe = '';
-  continent = '';
+  document.getElementById('mode-type').style.display = mode === 'type' ? 'block' : 'none';
+  document.getElementById('mode-cont').style.display = mode === 'continent' ? 'block' : 'none';
+  vibe = ''; continent = '';
   document.querySelectorAll('.vibe-card').forEach(c => c.classList.remove('on'));
-  document.querySelectorAll('.map-region').forEach(c => c.classList.remove('selected'));
-  const lbl = document.getElementById('map-selected-label');
-  if (lbl) { lbl.textContent = 'Tap a region to select'; lbl.classList.remove('active'); }
+  document.querySelectorAll('.map-region').forEach(c => c.classList.remove('sel'));
+  const lbl = document.getElementById('map-label');
+  if (lbl) { lbl.textContent = 'Tap a region'; lbl.style.color = 'var(--text-dim)'; }
 }
 
-function pickContinent(el, c) {
-  document.querySelectorAll('.map-region').forEach(x => x.classList.remove('selected'));
-  el.classList.add('selected');
+function pickContinent(c) {
+  document.querySelectorAll('.map-region').forEach(x => x.classList.remove('sel'));
+  const reg = document.getElementById('reg-' + c.replace(' ',''));
+  if (reg) reg.classList.add('sel');
   continent = c;
-  const lbl = document.getElementById('map-selected-label');
-  if (lbl) { lbl.textContent = c + ' selected'; lbl.classList.add('active'); }
+  const lbl = document.getElementById('map-label');
+  if (lbl) { lbl.textContent = c + ' selected'; lbl.style.color = 'var(--accent)'; }
 }
 let count = parseInt(localStorage.getItem('fb_count') || '0');
 
