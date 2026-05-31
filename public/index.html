@@ -1,4 +1,4 @@
-<!-- v20260530235513 -->
+<!-- v20260531001739 -->
 DOCTYPE html>
 <html lang="en">
 <head>
@@ -1067,8 +1067,8 @@ footer {
 
 .mode-btn:hover:not(.active) { color: var(--text-mid); }
 
-.mode-panel { display: none; }
-.mode-panel.active { display: block; animation: panelIn 0.2s ease both; }
+.mode-panel { display: none !important; }
+.mode-panel.active { display: block !important; animation: panelIn 0.2s ease both; }
 
 /* ── CONTINENT GRID ── */
 .cont-grid {
@@ -1275,7 +1275,7 @@ footer {
 
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('req',this)">Visa Requirements</button>
-    <button class="tab-btn" onclick="switchTab('disc',this)">Destination Ideas</button>
+    <button class="tab-btn" onclick="switchTab('disc',this)">Trip Inspiration</button>
   </div>
 
   <!-- REQUIREMENTS -->
@@ -1343,7 +1343,7 @@ footer {
         </div>
       </div>
 
-      <div id="mode-type" class="mode-panel active">
+      <div id="mode-type" class="mode-panel active" style="display:block">
         <div class="field">
           <label>What kind of trip?</label>
           <div class="vibe-grid">
@@ -1359,7 +1359,7 @@ footer {
         </div>
       </div>
 
-      <div id="mode-cont" class="mode-panel">
+      <div id="mode-cont" class="mode-panel" style="display:none">
         <div class="field">
           <label>Select a continent</label>
           <div class="map-wrap">
@@ -1485,10 +1485,19 @@ let discMode = 'type';
 
 function switchMode(mode) {
   discMode = mode;
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.mode-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('mode-' + mode + '-btn').classList.add('active');
-  document.getElementById('mode-' + mode).classList.add('active');
+  // Update buttons
+  document.getElementById('mode-type-btn').classList.toggle('active', mode === 'type');
+  document.getElementById('mode-cont-btn').classList.toggle('active', mode === 'continent');
+  // Show/hide panels directly
+  const typePanel = document.getElementById('mode-type');
+  const contPanel = document.getElementById('mode-cont');
+  if (mode === 'type') {
+    typePanel.style.display = 'block';
+    contPanel.style.display = 'none';
+  } else {
+    typePanel.style.display = 'none';
+    contPanel.style.display = 'block';
+  }
   // Reset selections
   vibe = '';
   continent = '';
