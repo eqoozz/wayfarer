@@ -980,9 +980,9 @@ footer {
 
 .dest-row-name {
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 400;
-  color: var(--text);
+  color: var(--white);
   letter-spacing: 0.02em;
   line-height: 1;
 }
@@ -1003,9 +1003,9 @@ footer {
   align-items: center;
   flex-wrap: wrap;
   gap: 5px;
-  font-size: 11px;
-  font-weight: 300;
-  color: var(--text-dim);
+  font-size: 11.5px;
+  font-weight: 400;
+  color: var(--text-mid);
   letter-spacing: 0.02em;
 }
 
@@ -1030,6 +1030,68 @@ footer {
 
 .reload-btn:hover { border-color: rgba(255,255,255,0.15); color: var(--text-mid); }
 .reload-btn:active { transform: scale(0.988); }
+
+
+/* ── MODE TOGGLE ── */
+.mode-toggle {
+  display: flex;
+  background: var(--bg-inset);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 3px;
+  gap: 3px;
+  margin-bottom: 1.25rem;
+}
+
+.mode-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 9px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.16,1,0.3,1);
+}
+
+.mode-btn.active {
+  background: var(--bg-raised);
+  color: var(--text);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.mode-btn:hover:not(.active) { color: var(--text-mid); }
+
+.mode-panel { display: none; }
+.mode-panel.active { display: block; animation: panelIn 0.2s ease both; }
+
+/* ── CONTINENT GRID ── */
+.cont-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.cont-card {
+  background: var(--bg-inset);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.9rem 0.4rem 0.75rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.16,1,0.3,1);
+}
+
+.cont-card:hover { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); }
+.cont-card:active { transform: scale(0.95); }
+.cont-card.on { border-color: rgba(212,169,106,0.4); background: var(--accent-dim); }
+.cont-card.on .vibe-lbl { color: var(--accent); }
 
 /* ── MODAL ── */
 .modal-overlay {
@@ -1206,16 +1268,40 @@ footer {
       </div>
 
       <div class="field">
-        <label>What kind of trip?</label>
-        <div class="vibe-grid">
-          <div class="vibe-card" onclick="pickVibe(this,'beach & relaxation')"><span class="vibe-emoji">🏖</span><span class="vibe-lbl">Beach</span></div>
-          <div class="vibe-card" onclick="pickVibe(this,'culture & history')"><span class="vibe-emoji">🏛</span><span class="vibe-lbl">Culture</span></div>
-          <div class="vibe-card" onclick="pickVibe(this,'adventure & nature')"><span class="vibe-emoji">🏔</span><span class="vibe-lbl">Adventure</span></div>
-          <div class="vibe-card" onclick="pickVibe(this,'food & nightlife')"><span class="vibe-emoji">🍜</span><span class="vibe-lbl">Food</span></div>
-          <div class="vibe-card" onclick="pickVibe(this,'luxury')"><span class="vibe-emoji">✨</span><span class="vibe-lbl">Luxury</span></div>
-          <div class="vibe-card" onclick="pickVibe(this,'budget travel')"><span class="vibe-emoji">🎒</span><span class="vibe-lbl">Budget</span></div>
-          <div class="vibe-card" onclick="pickVibe(this,'family friendly')"><span class="vibe-emoji">👨‍👩‍👧</span><span class="vibe-lbl">Family</span></div>
-          <div class="vibe-card" onclick="pickVibe(this,'city break')"><span class="vibe-emoji">🌆</span><span class="vibe-lbl">City</span></div>
+        <label>Search by</label>
+        <div class="mode-toggle">
+          <button class="mode-btn active" id="mode-type-btn" onclick="switchMode('type')">Holiday type</button>
+          <button class="mode-btn" id="mode-cont-btn" onclick="switchMode('continent')">Continent</button>
+        </div>
+      </div>
+
+      <div id="mode-type" class="mode-panel active">
+        <div class="field">
+          <label>What kind of trip?</label>
+          <div class="vibe-grid">
+            <div class="vibe-card" onclick="pickVibe(this,'beach & relaxation')"><span class="vibe-emoji">🏖</span><span class="vibe-lbl">Beach</span></div>
+            <div class="vibe-card" onclick="pickVibe(this,'culture & history')"><span class="vibe-emoji">🏛</span><span class="vibe-lbl">Culture</span></div>
+            <div class="vibe-card" onclick="pickVibe(this,'adventure & nature')"><span class="vibe-emoji">🏔</span><span class="vibe-lbl">Adventure</span></div>
+            <div class="vibe-card" onclick="pickVibe(this,'food & nightlife')"><span class="vibe-emoji">🍜</span><span class="vibe-lbl">Food</span></div>
+            <div class="vibe-card" onclick="pickVibe(this,'luxury')"><span class="vibe-emoji">✨</span><span class="vibe-lbl">Luxury</span></div>
+            <div class="vibe-card" onclick="pickVibe(this,'budget travel')"><span class="vibe-emoji">🎒</span><span class="vibe-lbl">Budget</span></div>
+            <div class="vibe-card" onclick="pickVibe(this,'family friendly')"><span class="vibe-emoji">👨‍👩‍👧</span><span class="vibe-lbl">Family</span></div>
+            <div class="vibe-card" onclick="pickVibe(this,'city break')"><span class="vibe-emoji">🌆</span><span class="vibe-lbl">City</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="mode-cont" class="mode-panel">
+        <div class="field">
+          <label>Which continent?</label>
+          <div class="cont-grid">
+            <div class="cont-card" onclick="pickContinent(this,'Europe')"><span class="vibe-emoji">🇪🇺</span><span class="vibe-lbl">Europe</span></div>
+            <div class="cont-card" onclick="pickContinent(this,'Asia')"><span class="vibe-emoji">🌏</span><span class="vibe-lbl">Asia</span></div>
+            <div class="cont-card" onclick="pickContinent(this,'Africa')"><span class="vibe-emoji">🌍</span><span class="vibe-lbl">Africa</span></div>
+            <div class="cont-card" onclick="pickContinent(this,'Americas')"><span class="vibe-emoji">🌎</span><span class="vibe-lbl">Americas</span></div>
+            <div class="cont-card" onclick="pickContinent(this,'Middle East')"><span class="vibe-emoji">🕌</span><span class="vibe-lbl">Middle East</span></div>
+            <div class="cont-card" onclick="pickContinent(this,'Oceania')"><span class="vibe-emoji">🐚</span><span class="vibe-lbl">Oceania</span></div>
+          </div>
         </div>
       </div>
 
@@ -1279,6 +1365,26 @@ const C = [
 ];
 
 let vibe = '';
+let continent = '';
+let discMode = 'type';
+
+function switchMode(mode) {
+  discMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.mode-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('mode-' + mode + '-btn').classList.add('active');
+  document.getElementById('mode-' + mode).classList.add('active');
+  // Reset selections
+  vibe = '';
+  continent = '';
+  document.querySelectorAll('.vibe-card, .cont-card').forEach(c => c.classList.remove('on'));
+}
+
+function pickContinent(el, c) {
+  document.querySelectorAll('.cont-card').forEach(x => x.classList.remove('on'));
+  el.classList.add('on');
+  continent = c;
+}
 let count = parseInt(localStorage.getItem('fb_count') || '0');
 
 function animNum(el, to, ms = 900) {
@@ -1630,7 +1736,9 @@ Return ONLY a valid JSON array — no markdown:
 }]`
     );
 
-    const dests = JSON.parse(raw.replace(/```json|```/g,'').trim());
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const jsonMatch = clean.match(/\[[\s\S]*\]/);
+    const dests = JSON.parse(jsonMatch ? jsonMatch[0] : clean);
     document.getElementById('rec-results').innerHTML = `
       <div class="dest-list">
         ${dests.map((d,i) => `
@@ -1642,13 +1750,12 @@ Return ONLY a valid JSON array — no markdown:
                 <span class="dest-row-name">${d.country}</span>
                 <span class="dest-vbadge ${bc(d.visaStatus)}">${d.visaStatus}</span>
               </div>
-              <p class="dest-row-tagline">${d.tagline}</p>
               <div class="dest-row-meta">
                 <span>${d.bestTime}</span>
                 <span class="dest-row-dot">·</span>
                 <span>${d.vibe}</span>
                 <span class="dest-row-dot">·</span>
-                <span>${d.mustDo}</span>
+                <span>${d.mustDo}.</span>
               </div>
             </div>
           </div>
