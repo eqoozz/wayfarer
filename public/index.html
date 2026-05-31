@@ -1,4 +1,4 @@
-<!-- v20260531133521 -->
+<!-- v20260531135715 -->
 DOCTYPE html>
 <html lang="en">
 <head>
@@ -1946,7 +1946,7 @@ const ID_TO_CONT = {
   516:'Africa',562:'Africa',566:'Africa',624:'Africa',638:'Africa',646:'Africa',
   654:'Africa',678:'Africa',686:'Africa',690:'Africa',694:'Africa',706:'Africa',
   710:'Africa',716:'Africa',728:'Africa',729:'Africa',732:'Africa',736:'Africa',
-  740:'Africa',748:'Africa',768:'Africa',788:'Africa',800:'Africa',818:'Africa',
+748:'Africa',768:'Africa',788:'Africa',800:'Africa',818:'Africa',
   834:'Africa',854:'Africa',894:'Africa',
   // Asia — includes Russia, Middle East, Central Asia, South/SE/East Asia
   4:'Asia',31:'Asia',48:'Asia',50:'Asia',51:'Asia',64:'Asia',96:'Asia',
@@ -1997,12 +1997,37 @@ function initWorldMap() {
     // Remove Antarctica
     const filtered = countries.features.filter(d => +d.id !== 10);
 
+    // Precompute valid IDs per continent using geographic centroid bounds
+    const CONT_BOUNDS = {
+      'North America': { lonMin:-180, lonMax:-30, latMin:5, latMax:85 },
+      'South America': { lonMin:-85, lonMax:-30, latMin:-60, latMax:15 },
+      'Europe':        { lonMin:-30, lonMax:50,  latMin:35, latMax:75 },
+      'Africa':        { lonMin:-20, lonMax:55,  latMin:-40, latMax:38 },
+      'Asia':          { lonMin:25,  lonMax:180, latMin:-12, latMax:78 },
+      'Oceania':       { lonMin:100, lonMax:180, latMin:-50, latMax:5  }
+    };
+
+    const validIds = new Set();
+    filtered.forEach(d => {
+      const c = getContinent(d.id);
+      if (!c) return;
+      const centroid = path.centroid(d);
+      if (!centroid || isNaN(centroid[0])) return;
+      const coords = projection.invert(centroid);
+      if (!coords) return;
+      const [lon, lat] = coords;
+      const b = CONT_BOUNDS[c];
+      if (b && lon >= b.lonMin && lon <= b.lonMax && lat >= b.latMin && lat <= b.latMax) {
+        validIds.add(+d.id);
+      }
+    });
+
     function fillColor(id) {
+      if (!validIds.has(+id)) return 'rgba(255,255,255,0.1)';
       const c = getContinent(id);
       return c === continent ? 'rgba(212,169,106,0.5)' : 'rgba(255,255,255,0.1)';
     }
 
-    // Ocean/background
     svg.append('rect')
       .attr('width', W).attr('height', H)
       .style('fill', 'transparent');
@@ -2020,8 +2045,9 @@ function initWorldMap() {
       .on('mouseover', function(event, d) {
         const c = getContinent(d.id);
         if (!c) return;
+        if (!validIds.has(+d.id)) return;
         svg.selectAll('path').style('fill', dd => {
-          if (!dd.id) return;
+          if (!dd.id || !validIds.has(+dd.id)) return 'rgba(255,255,255,0.1)';
           const dc = getContinent(dd.id);
           if (dc === continent) return 'rgba(212,169,106,0.5)';
           return dc === c ? 'rgba(212,169,106,0.28)' : 'rgba(255,255,255,0.1)';
@@ -2040,6 +2066,15 @@ function initWorldMap() {
       .on('click', function(event, d) {
         const c = getContinent(d.id);
         if (!c) return;
+        // Validate: check that this feature's centroid is roughly in the right region
+        const centroid = path.centroid(d);
+        const coords = projection.invert(centroid);
+        if (!coords) return;
+        const [lon, lat] = coords;
+        // Reject European clicks that come from outside Europe's geographic bounds
+        if (c === 'Europe' && (lon < -30 || lon > 50 || lat < 25 || lat > 75)) return;
+        // Reject African clicks outside Africa's bounds
+        if (c === 'Africa' && (lon < -25 || lon > 55 || lat < -40 || lat > 40)) return;
         continent = c;
         svg.selectAll('path').style('fill', d => fillColor(d.id));
         const lbl = document.getElementById('map-label');
