@@ -1093,6 +1093,74 @@ footer {
 .cont-card.on { border-color: rgba(212,169,106,0.4); background: var(--accent-dim); }
 .cont-card.on .vibe-lbl { color: var(--accent); }
 
+
+/* ── WORLD MAP ── */
+.map-wrap {
+  margin-top: 0.5rem;
+}
+
+.world-map {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius);
+  background: var(--bg-inset);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  overflow: visible;
+}
+
+.map-region path {
+  fill: rgba(255,255,255,0.07);
+  stroke: rgba(255,255,255,0.15);
+  stroke-width: 1.5;
+  transition: fill 0.2s ease, stroke 0.2s ease;
+  cursor: pointer;
+}
+
+.map-region:hover path {
+  fill: rgba(212,169,106,0.2);
+  stroke: rgba(212,169,106,0.5);
+}
+
+.map-region.selected path {
+  fill: rgba(212,169,106,0.3);
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.map-label {
+  font-size: 11px;
+  fill: rgba(255,255,255,0.25);
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  pointer-events: none;
+  transition: fill 0.2s ease;
+  text-anchor: middle;
+}
+
+.map-region:hover .map-label,
+.map-region.selected .map-label {
+  fill: var(--accent);
+}
+
+.map-selected {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 0.75rem;
+  transition: color 0.2s ease;
+  min-height: 16px;
+}
+
+.map-selected.active {
+  color: var(--accent);
+}
+
 /* ── MODAL ── */
 .modal-overlay {
   display: none;
@@ -1293,14 +1361,61 @@ footer {
 
       <div id="mode-cont" class="mode-panel">
         <div class="field">
-          <label>Which continent?</label>
-          <div class="cont-grid">
-            <div class="cont-card" onclick="pickContinent(this,'Europe')"><span class="vibe-emoji">🇪🇺</span><span class="vibe-lbl">Europe</span></div>
-            <div class="cont-card" onclick="pickContinent(this,'Asia')"><span class="vibe-emoji">🌏</span><span class="vibe-lbl">Asia</span></div>
-            <div class="cont-card" onclick="pickContinent(this,'Africa')"><span class="vibe-emoji">🌍</span><span class="vibe-lbl">Africa</span></div>
-            <div class="cont-card" onclick="pickContinent(this,'Americas')"><span class="vibe-emoji">🌎</span><span class="vibe-lbl">Americas</span></div>
-            <div class="cont-card" onclick="pickContinent(this,'Middle East')"><span class="vibe-emoji">🕌</span><span class="vibe-lbl">Middle East</span></div>
-            <div class="cont-card" onclick="pickContinent(this,'Oceania')"><span class="vibe-emoji">🐚</span><span class="vibe-lbl">Oceania</span></div>
+          <label>Select a continent</label>
+          <div class="map-wrap">
+            <svg class="world-map" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+              <!-- Americas -->
+              <g class="map-region" id="cont-Americas" onclick="pickContinent(this,'Americas')">
+                <title>Americas</title>
+                <!-- North America -->
+                <path d="M 80 60 L 180 50 L 220 80 L 240 120 L 210 160 L 190 200 L 170 220 L 150 210 L 130 230 L 110 220 L 90 180 L 70 140 L 60 100 Z" />
+                <!-- Central America -->
+                <path d="M 150 210 L 170 220 L 165 250 L 155 260 L 145 255 L 140 240 Z" />
+                <!-- South America -->
+                <path d="M 155 260 L 200 250 L 230 270 L 250 320 L 240 380 L 210 420 L 180 430 L 155 400 L 140 360 L 135 310 L 140 280 Z" />
+                <text class="map-label" x="155" y="170">Americas</text>
+              </g>
+
+              <!-- Europe -->
+              <g class="map-region" id="cont-Europe" onclick="pickContinent(this,'Europe')">
+                <title>Europe</title>
+                <path d="M 420 55 L 480 45 L 530 55 L 550 80 L 540 110 L 510 130 L 490 150 L 460 155 L 430 140 L 410 120 L 400 95 Z" />
+                <text class="map-label" x="475" y="105">Europe</text>
+              </g>
+
+              <!-- Africa -->
+              <g class="map-region" id="cont-Africa" onclick="pickContinent(this,'Africa')">
+                <title>Africa</title>
+                <path d="M 430 165 L 490 160 L 530 170 L 560 200 L 570 250 L 565 310 L 540 360 L 510 390 L 480 400 L 450 390 L 420 355 L 405 300 L 400 240 L 410 195 Z" />
+                <text class="map-label" x="483" y="285">Africa</text>
+              </g>
+
+              <!-- Middle East -->
+              <g class="map-region" id="cont-Middle East" onclick="pickContinent(this,'Middle East')">
+                <title>Middle East</title>
+                <path d="M 545 120 L 610 110 L 650 130 L 660 165 L 640 190 L 600 200 L 565 190 L 545 170 Z" />
+                <text class="map-label" x="600" y="160">Middle East</text>
+              </g>
+
+              <!-- Asia -->
+              <g class="map-region" id="cont-Asia" onclick="pickContinent(this,'Asia')">
+                <title>Asia</title>
+                <path d="M 560 50 L 680 40 L 800 55 L 870 80 L 890 130 L 870 180 L 820 210 L 760 220 L 700 210 L 650 195 L 610 200 L 570 185 L 545 160 L 545 120 L 565 85 Z" />
+                <!-- Southeast Asia peninsula -->
+                <path d="M 800 210 L 830 230 L 825 270 L 805 285 L 790 270 L 785 240 Z" />
+                <text class="map-label" x="720" y="135">Asia</text>
+              </g>
+
+              <!-- Oceania -->
+              <g class="map-region" id="cont-Oceania" onclick="pickContinent(this,'Oceania')">
+                <title>Oceania</title>
+                <path d="M 790 300 L 870 290 L 920 310 L 940 350 L 920 390 L 870 400 L 820 385 L 790 355 L 785 320 Z" />
+                <path d="M 870 410 L 900 405 L 910 425 L 890 435 L 870 425 Z" />
+                <text class="map-label" x="855" y="345">Oceania</text>
+              </g>
+            </svg>
+
+            <div class="map-selected" id="map-selected-label">Tap a region to select</div>
           </div>
         </div>
       </div>
@@ -1377,13 +1492,18 @@ function switchMode(mode) {
   // Reset selections
   vibe = '';
   continent = '';
-  document.querySelectorAll('.vibe-card, .cont-card').forEach(c => c.classList.remove('on'));
+  document.querySelectorAll('.vibe-card').forEach(c => c.classList.remove('on'));
+  document.querySelectorAll('.map-region').forEach(c => c.classList.remove('selected'));
+  const lbl = document.getElementById('map-selected-label');
+  if (lbl) { lbl.textContent = 'Tap a region to select'; lbl.classList.remove('active'); }
 }
 
 function pickContinent(el, c) {
-  document.querySelectorAll('.cont-card').forEach(x => x.classList.remove('on'));
-  el.classList.add('on');
+  document.querySelectorAll('.map-region').forEach(x => x.classList.remove('selected'));
+  el.classList.add('selected');
   continent = c;
+  const lbl = document.getElementById('map-selected-label');
+  if (lbl) { lbl.textContent = c + ' selected'; lbl.classList.add('active'); }
 }
 let count = parseInt(localStorage.getItem('fb_count') || '0');
 
