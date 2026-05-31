@@ -1,4 +1,4 @@
-<!-- v20260531001739 -->
+<!-- v20260531002437 -->
 DOCTYPE html>
 <html lang="en">
 <head>
@@ -1849,29 +1849,28 @@ async function getDisc() {
   bumpCount();
 
   try {
+    const searchFilter = discMode === 'type' ? vibe : continent;
     const raw = await api(
-`Suggest 3 excellent travel destinations for a ${getNationality(nat)} passport holder${vibe ? ' interested in '+vibe : ''}. Prioritise destinations with easy visa access for this nationality.
+`You are a travel expert. A ${getNationality(nat)} passport holder wants destination ideas${searchFilter ? (discMode === 'continent' ? ' in ' + searchFilter : ' focused on ' + searchFilter) : ''}.
 
-Return ONLY a valid JSON array — no markdown:
-[{
-  "country": "name",
-  "flag": "emoji",
-  "tagline": "poetic one line description",
-  "visaStatus": "Visa-free OR Visa on arrival OR eVisa OR Visa required",
-  "why": "2 sentences specifically relevant to ${getNationality(nat)} passport holders",
-  "bestTime": "e.g. March to May",
-  "mustDo": "one specific experience",
-  "vibe": "2 to 3 word mood"
-}]`
+STRICT RULES:
+1. Return EXACTLY 8 destinations. No fewer, no exceptions.
+2. For EU/European passports: always list obvious visa-free European and Mediterranean countries first. Italy, Spain, France, Greece, Croatia, Portugal, Germany, Netherlands etc must appear before any long-haul destination.
+3. Never suggest a distant destination when many closer easier visa-free options exist for this passport.
+4. If continent is specified, only suggest countries in that continent.
+5. Rank by ease of access for this specific passport.
+
+Return ONLY a JSON array of exactly 8 items, no markdown, no explanation:
+[{"country":"name","flag":"emoji","visaStatus":"Visa-free OR Visa on arrival OR eVisa OR Visa required","bestTime":"Apr to Jun","mustDo":"one specific experience","vibe":"2-3 words"}]`
     );
 
     const clean = raw.replace(/```json|```/g,'').trim();
-    const jsonMatch = clean.match(/\[[\s\S]*\]/);
-    const dests = JSON.parse(jsonMatch ? jsonMatch[0] : clean);
+    const arrMatch = clean.match(/\[[\s\S]*\]/);
+    const dests = JSON.parse(arrMatch ? arrMatch[0] : clean);
     document.getElementById('rec-results').innerHTML = `
       <div class="dest-list">
         ${dests.map((d,i) => `
-        <div class="dest-row" style="animation-delay:${i*0.05}s">
+        <div class="dest-row" style="animation-delay:${i*0.04}s">
           <div class="dest-row-left">
             <span class="dest-row-flag">${d.flag}</span>
             <div class="dest-row-info">
@@ -1880,9 +1879,7 @@ Return ONLY a valid JSON array — no markdown:
                 <span class="dest-vbadge ${bc(d.visaStatus)}">${d.visaStatus}</span>
               </div>
               <div class="dest-row-meta">
-                <span>${d.bestTime}</span>
-                <span class="dest-row-dot">·</span>
-                <span>${d.vibe}</span>
+                <span>Best time: ${d.bestTime}</span>
                 <span class="dest-row-dot">·</span>
                 <span>${d.mustDo}.</span>
               </div>
