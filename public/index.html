@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!-- v20260530235513 -->
+DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -503,10 +504,10 @@ header {
 .res-flag { font-size: 2rem; flex-shrink: 0; }
 
 .res-route {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
   color: var(--text);
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: 0.02em;
 }
 
@@ -581,8 +582,8 @@ header {
 
 .res-value {
   font-size: 13px;
-  font-weight: 300;
-  color: var(--text-mid);
+  font-weight: 400;
+  color: var(--text);
   line-height: 1.65;
 }
 
@@ -935,6 +936,101 @@ footer {
   .res-card { padding: 1rem 1.25rem; }
 }
 
+
+/* ── COMPACT DEST LIST ── */
+.dest-list {
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.dest-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--line-soft);
+  gap: 1rem;
+  transition: background 0.15s ease;
+  animation: riseIn 0.28s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+.dest-row:last-child { border-bottom: none; }
+.dest-row:hover { background: rgba(255,255,255,0.025); }
+
+.dest-row-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  width: 100%;
+}
+
+.dest-row-flag { font-size: 1.6rem; flex-shrink: 0; margin-top: 1px; }
+
+.dest-row-info { flex: 1; min-width: 0; }
+
+.dest-row-top {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 3px;
+}
+
+.dest-row-name {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.dest-row-tagline {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--text-dim);
+  font-style: italic;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  line-height: 1.4;
+}
+
+.dest-row-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+}
+
+.dest-row-dot { color: var(--text-dim); opacity: 0.4; }
+
+.reload-btn {
+  width: 100%;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.18s ease;
+  margin-top: 0.5rem;
+}
+
+.reload-btn:hover { border-color: rgba(255,255,255,0.15); color: var(--text-mid); }
+.reload-btn:active { transform: scale(0.988); }
+
 /* ── MODAL ── */
 .modal-overlay {
   display: none;
@@ -1207,6 +1303,46 @@ window.addEventListener('load', () => {
   if (count > 0) setTimeout(() => refreshCounters(true), 600);
 });
 
+const NATIONALITY_MAP = {
+  "Afghanistan":"Afghan","Albania":"Albanian","Algeria":"Algerian","Andorra":"Andorran",
+  "Angola":"Angolan","Argentina":"Argentine","Armenia":"Armenian","Australia":"Australian",
+  "Austria":"Austrian","Azerbaijan":"Azerbaijani","Bahamas":"Bahamian","Bahrain":"Bahraini",
+  "Bangladesh":"Bangladeshi","Belarus":"Belarusian","Belgium":"Belgian","Belize":"Belizean",
+  "Bhutan":"Bhutanese","Bolivia":"Bolivian","Bosnia and Herzegovina":"Bosnian","Botswana":"Botswanan",
+  "Brazil":"Brazilian","Brunei":"Bruneian","Bulgaria":"Bulgarian","Cambodia":"Cambodian",
+  "Cameroon":"Cameroonian","Canada":"Canadian","Chile":"Chilean","China":"Chinese",
+  "Colombia":"Colombian","Costa Rica":"Costa Rican","Croatia":"Croatian","Cuba":"Cuban",
+  "Cyprus":"Cypriot","Czech Republic":"Czech","Denmark":"Danish","Dominican Republic":"Dominican",
+  "Ecuador":"Ecuadorian","Egypt":"Egyptian","El Salvador":"Salvadoran","Estonia":"Estonian",
+  "Ethiopia":"Ethiopian","Fiji":"Fijian","Finland":"Finnish","France":"French",
+  "Georgia":"Georgian","Germany":"German","Ghana":"Ghanaian","Greece":"Greek",
+  "Guatemala":"Guatemalan","Honduras":"Honduran","Hungary":"Hungarian","Iceland":"Icelandic",
+  "India":"Indian","Indonesia":"Indonesian","Iran":"Iranian","Iraq":"Iraqi",
+  "Ireland":"Irish","Israel":"Israeli","Italy":"Italian","Jamaica":"Jamaican",
+  "Japan":"Japanese","Jordan":"Jordanian","Kazakhstan":"Kazakhstani","Kenya":"Kenyan",
+  "Kuwait":"Kuwaiti","Kyrgyzstan":"Kyrgyz","Laos":"Lao","Latvia":"Latvian",
+  "Lebanon":"Lebanese","Lithuania":"Lithuanian","Luxembourg":"Luxembourgish","Malaysia":"Malaysian",
+  "Maldives":"Maldivian","Malta":"Maltese","Mexico":"Mexican","Moldova":"Moldovan",
+  "Mongolia":"Mongolian","Montenegro":"Montenegrin","Morocco":"Moroccan","Mozambique":"Mozambican",
+  "Myanmar":"Burmese","Namibia":"Namibian","Nepal":"Nepali","Netherlands":"Dutch",
+  "New Zealand":"New Zealand","Nicaragua":"Nicaraguan","Nigeria":"Nigerian","North Macedonia":"Macedonian",
+  "Norway":"Norwegian","Oman":"Omani","Pakistan":"Pakistani","Panama":"Panamanian",
+  "Paraguay":"Paraguayan","Peru":"Peruvian","Philippines":"Filipino","Poland":"Polish",
+  "Portugal":"Portuguese","Qatar":"Qatari","Romania":"Romanian","Russia":"Russian",
+  "Rwanda":"Rwandan","Saudi Arabia":"Saudi","Senegal":"Senegalese","Serbia":"Serbian",
+  "Singapore":"Singaporean","Slovakia":"Slovak","Slovenia":"Slovenian","South Africa":"South African",
+  "South Korea":"South Korean","Spain":"Spanish","Sri Lanka":"Sri Lankan","Sweden":"Swedish",
+  "Switzerland":"Swiss","Taiwan":"Taiwanese","Tanzania":"Tanzanian","Thailand":"Thai",
+  "Tunisia":"Tunisian","Turkey":"Turkish","Uganda":"Ugandan","Ukraine":"Ukrainian",
+  "United Arab Emirates":"Emirati","United Kingdom":"British","United States":"American",
+  "Uruguay":"Uruguayan","Uzbekistan":"Uzbek","Venezuela":"Venezuelan","Vietnam":"Vietnamese",
+  "Zambia":"Zambian","Zimbabwe":"Zimbabwean"
+};
+
+function getNationality(country) {
+  return NATIONALITY_MAP[country] || country;
+}
+
 function bumpCount() {
   count++;
   localStorage.setItem('fb_count', count);
@@ -1217,33 +1353,73 @@ function initDD(inputId, listId, hiddenId) {
   const inp = document.getElementById(inputId);
   const lst = document.getElementById(listId);
   const hid = document.getElementById(hiddenId);
+
+  // Find the wrapper and inject a flag display element
+  const wrapper = inp.parentElement;
+  const flagEl = document.createElement('span');
+  flagEl.style.cssText = 'position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none;display:none;';
+  wrapper.appendChild(flagEl);
+
   let pool = [...C], hi = -1;
 
+  function updateFlag() {
+    const c = C.find(x=>x.n===hid.value);
+    if (c) { flagEl.textContent = c.f; flagEl.style.display='block'; inp.style.paddingLeft='38px'; }
+    else { flagEl.style.display='none'; inp.style.paddingLeft='14px'; }
+  }
+
   function render(q) {
-    q = (q || '').toLowerCase();
-    pool = q ? C.filter(c => c.n.toLowerCase().includes(q)) : [...C];
+    q = (q||'').toLowerCase();
+    pool = q ? C.filter(c=>c.n.toLowerCase().includes(q)) : [...C];
     lst.innerHTML = pool.length
-      ? pool.map((c,i) => `<div class="dd-item${hid.value===c.n?' chosen':''}" data-i="${i}">${c.f}&nbsp;&nbsp;${c.n}</div>`).join('')
+      ? pool.map((c,i)=>`<div class="dd-item${hid.value===c.n?' chosen':''}" data-i="${i}">${c.f}&nbsp;&nbsp;${c.n}</div>`).join('')
       : '<div class="dd-empty">No results</div>';
-    lst.querySelectorAll('.dd-item').forEach((el,i) => {
-      el.addEventListener('mousedown', e => { e.preventDefault(); pick(pool[i]); });
+    lst.querySelectorAll('.dd-item').forEach((el,i)=>{
+      el.addEventListener('mousedown', e=>{ e.preventDefault(); pick(pool[i]); });
     });
     hi = -1;
   }
 
-  function pick(c) { inp.value = c.f + '  ' + c.n; hid.value = c.n; close(); }
-
-  function open() { render(hid.value ? '' : inp.value); lst.classList.add('open'); inp.classList.add('open'); }
-
-  function close() {
-    lst.classList.remove('open'); inp.classList.remove('open');
-    if (hid.value) { const c = C.find(x=>x.n===hid.value); if(c) inp.value = c.f+'  '+c.n; }
-    else inp.value = '';
+  function pick(c) {
+    hid.value = c.n;
+    inp.value = c.n;
+    inp.placeholder = '';
+    updateFlag();
+    close();
   }
 
-  inp.addEventListener('focus', open);
-  inp.addEventListener('input', () => { hid.value=''; render(inp.value); lst.classList.add('open'); });
+  function open() {
+    render('');
+    lst.classList.add('open');
+    inp.classList.add('open');
+  }
+
+  function close() {
+    lst.classList.remove('open');
+    inp.classList.remove('open');
+    if (!hid.value) { inp.value = ''; updateFlag(); }
+  }
+
+  inp.addEventListener('focus', () => {
+    inp.value = '';
+    flagEl.style.display = 'none';
+    inp.style.paddingLeft = '14px';
+    inp.placeholder = 'Type to search...';
+    render('');
+    lst.classList.add('open');
+    inp.classList.add('open');
+  });
+
+  inp.addEventListener('input', () => {
+    hid.value = '';
+    flagEl.style.display = 'none';
+    inp.style.paddingLeft = '14px';
+    render(inp.value);
+    lst.classList.add('open');
+  });
+
   inp.addEventListener('blur', () => setTimeout(close, 160));
+
   inp.addEventListener('keydown', e => {
     const items = lst.querySelectorAll('.dd-item');
     if (e.key==='ArrowDown') { e.preventDefault(); hi=Math.min(hi+1,items.length-1); items.forEach((el,i)=>el.classList.toggle('hi',i===hi)); items[hi]?.scrollIntoView({block:'nearest'}); }
@@ -1253,6 +1429,7 @@ function initDD(inputId, listId, hiddenId) {
   });
 
   render('');
+  updateFlag();
 }
 
 initDD('dd-nat','dl-nat','v-nat');
@@ -1323,19 +1500,8 @@ async function checkReq() {
 
   try {
     const raw = await api(
-`You are a precise travel requirements assistant. A ${nat} passport holder wants to visit ${dest} for standard tourism.
-
-Return ONLY valid JSON — no markdown, no explanation:
-{
-  "visaType": "Visa-free OR Visa on arrival OR eVisa OR Visa required",
-  "visaSummary": "one clear sentence",
-  "maxStay": "maximum stay as a short phrase",
-  "documents": ["item","item","item"],
-  "health": "one sentence on health or vaccine requirements, or: No mandatory requirements",
-  "tips": ["tip","tip","tip"],
-  "sourceName": "name of official government source",
-  "sourceUrl": "direct URL to official source"
-}`
+`Travel requirements for ${getNationality(nat)} passport holder visiting ${dest} for tourism. Return ONLY this JSON, no markdown:
+{"visaType":"Visa-free OR Visa on arrival OR eVisa OR Visa required","visaSummary":"one sentence","maxStay":"short phrase","documents":["doc1","doc2","doc3"],"health":"one sentence or No mandatory requirements","tips":["tip1","tip2","tip3"],"sourceName":"official source name","sourceUrl":"official URL"}`
     );
 
     const d = JSON.parse(raw.replace(/```json|```/g,'').trim());
@@ -1346,7 +1512,7 @@ Return ONLY valid JSON — no markdown, no explanation:
         <span class="res-flag">${flag(dest)}</span>
         <div>
           <p class="res-route">${nat} to ${dest}</p>
-          <p class="res-scope">Standard tourism · ${nat} passport</p>
+          <p class="res-scope">${getNationality(nat)} passport · tourism</p>
         </div>
       </div>
       <div class="res-cards">
@@ -1403,7 +1569,7 @@ Return ONLY valid JSON — no markdown, no explanation:
       <div class="verify">
         <p class="verify-title">Always verify before you travel</p>
         <p class="verify-text">This result is based on publicly available information and should be used as a starting point only. Requirements change without notice. Before booking or travelling, open the official source above and confirm directly.</p>
-        <div class="assumptions">Based on: standard ${nat} passport · tourism · direct travel · no unusual legal status</div>
+        <div class="assumptions">Based on: ${getNationality(nat)} passport · tourism · direct travel · no unusual legal status</div>
       </div>
 
       <div class="feedback">
@@ -1416,7 +1582,7 @@ Return ONLY valid JSON — no markdown, no explanation:
 
       <div class="bridge">
         <div class="bridge-text">
-          <p>Explore where your ${nat} passport can take you</p>
+          <p>Explore where your ${getNationality(nat)} passport can take you</p>
           <p>Find destinations matched to your travel style</p>
         </div>
         <button class="bridge-go" onclick="goDiscover('${nat}')">Explore</button>
@@ -1449,7 +1615,7 @@ async function getDisc() {
 
   try {
     const raw = await api(
-`Suggest 3 excellent travel destinations for a ${nat} passport holder${vibe ? ' interested in '+vibe : ''}. Prioritise destinations with easy visa access for this nationality.
+`Suggest 3 excellent travel destinations for a ${getNationality(nat)} passport holder${vibe ? ' interested in '+vibe : ''}. Prioritise destinations with easy visa access for this nationality.
 
 Return ONLY a valid JSON array — no markdown:
 [{
@@ -1457,7 +1623,7 @@ Return ONLY a valid JSON array — no markdown:
   "flag": "emoji",
   "tagline": "poetic one line description",
   "visaStatus": "Visa-free OR Visa on arrival OR eVisa OR Visa required",
-  "why": "2 sentences specifically relevant to ${nat} passport holders",
+  "why": "2 sentences specifically relevant to ${getNationality(nat)} passport holders",
   "bestTime": "e.g. March to May",
   "mustDo": "one specific experience",
   "vibe": "2 to 3 word mood"
@@ -1465,26 +1631,31 @@ Return ONLY a valid JSON array — no markdown:
     );
 
     const dests = JSON.parse(raw.replace(/```json|```/g,'').trim());
-    document.getElementById('rec-results').innerHTML = dests.map(d => `
-      <div class="dest-card">
-        <div class="dest-visual">${d.flag}</div>
-        <div class="dest-body">
-          <div class="dest-top">
-            <p class="dest-name">${d.flag} ${d.country}</p>
-            <span class="dest-vbadge ${bc(d.visaStatus)}">${d.visaStatus}</span>
+    document.getElementById('rec-results').innerHTML = `
+      <div class="dest-list">
+        ${dests.map((d,i) => `
+        <div class="dest-row" style="animation-delay:${i*0.05}s">
+          <div class="dest-row-left">
+            <span class="dest-row-flag">${d.flag}</span>
+            <div class="dest-row-info">
+              <div class="dest-row-top">
+                <span class="dest-row-name">${d.country}</span>
+                <span class="dest-vbadge ${bc(d.visaStatus)}">${d.visaStatus}</span>
+              </div>
+              <p class="dest-row-tagline">${d.tagline}</p>
+              <div class="dest-row-meta">
+                <span>${d.bestTime}</span>
+                <span class="dest-row-dot">·</span>
+                <span>${d.vibe}</span>
+                <span class="dest-row-dot">·</span>
+                <span>${d.mustDo}</span>
+              </div>
+            </div>
           </div>
-          <p class="dest-tagline">${d.tagline}</p>
-          <div class="dest-meta">
-            <div><p class="dest-meta-label">Best time</p><p class="dest-meta-val">${d.bestTime}</p></div>
-            <div><p class="dest-meta-label">Vibe</p><p class="dest-meta-val">${d.vibe}</p></div>
-          </div>
-          <p class="dest-why">${d.why}</p>
-          <div class="dest-must">
-            <p class="dest-must-label">Must do</p>
-            <p class="dest-must-val">${d.mustDo}</p>
-          </div>
-        </div>
-      </div>`).join('');
+        </div>`).join('')}
+      </div>
+      <button class="reload-btn" onclick="getDisc()">Show different destinations</button>
+    `;
 
   } catch(e) {
     showErr('disc', 'Could not load recommendations. Please try again.');
