@@ -1,4 +1,4 @@
-<!-- v20260531003420 -->
+<!-- v20260531094632 -->
 DOCTYPE html>
 <html lang="en">
 <head>
@@ -1362,68 +1362,7 @@ footer {
       <div id="mode-cont" style="display:none;">
         <div class="field">
           <label>Select a continent</label>
-          <svg id="world-map" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;border-radius:10px;background:var(--bg-inset);border:1px solid var(--line);cursor:pointer;margin-top:0.5rem;">
-
-            <!-- North America -->
-            <g class="map-region" id="reg-Americas" onclick="pickContinent('Americas')">
-              <path d="M 120,40 L 160,35 L 200,45 L 230,60 L 240,80 L 245,100 L 235,120 L 220,135 L 210,155 L 200,170 L 185,180 L 175,195 L 165,210 L 150,215 L 140,205 L 125,200 L 115,185 L 105,165 L 95,140 L 90,115 L 95,85 L 105,60 Z"/>
-              <!-- Central America -->
-              <path d="M 165,210 L 175,215 L 172,230 L 162,238 L 155,232 L 152,220 Z"/>
-              <!-- Caribbean rough -->
-              <path d="M 210,175 L 225,172 L 228,180 L 218,183 Z"/>
-              <!-- South America -->
-              <path d="M 162,238 L 195,232 L 220,245 L 238,270 L 245,300 L 248,335 L 240,370 L 225,400 L 205,420 L 183,428 L 162,418 L 148,395 L 138,360 L 132,320 L 133,285 L 142,260 Z"/>
-              <text x="175" y="155" class="map-label">Americas</text>
-            </g>
-
-            <!-- Europe -->
-            <g class="map-region" id="reg-Europe" onclick="pickContinent('Europe')">
-              <path d="M 430,50 L 460,45 L 490,48 L 515,55 L 535,68 L 545,85 L 542,105 L 530,120 L 515,130 L 500,138 L 482,142 L 465,138 L 448,128 L 435,115 L 425,98 L 422,78 Z"/>
-              <!-- Scandinavia -->
-              <path d="M 460,45 L 470,30 L 488,28 L 500,38 L 498,52 L 490,48 Z"/>
-              <!-- Iberian -->
-              <path d="M 422,115 L 435,118 L 438,132 L 428,138 L 418,130 Z"/>
-              <!-- Italian boot rough -->
-              <path d="M 490,138 L 498,145 L 502,158 L 495,165 L 485,160 L 483,148 Z"/>
-              <text x="482" y="100" class="map-label">Europe</text>
-            </g>
-
-            <!-- Africa -->
-            <g class="map-region" id="reg-Africa" onclick="pickContinent('Africa')">
-              <path d="M 438,148 L 468,142 L 500,145 L 528,155 L 548,172 L 558,195 L 562,225 L 560,260 L 552,295 L 538,328 L 518,355 L 495,375 L 470,382 L 445,375 L 422,352 L 408,318 L 400,280 L 398,242 L 402,208 L 412,178 L 425,160 Z"/>
-              <text x="480" y="268" class="map-label">Africa</text>
-            </g>
-
-            <!-- Middle East -->
-            <g class="map-region" id="reg-MiddleEast" onclick="pickContinent('Middle East')">
-              <path d="M 548,105 L 590,98 L 625,108 L 648,125 L 655,148 L 645,168 L 622,180 L 595,185 L 568,178 L 548,162 L 542,140 Z"/>
-              <text x="596" y="148" class="map-label">Middle East</text>
-            </g>
-
-            <!-- Asia -->
-            <g class="map-region" id="reg-Asia" onclick="pickContinent('Asia')">
-              <path d="M 548,62 L 590,52 L 640,48 L 695,52 L 748,60 L 800,72 L 845,88 L 872,108 L 882,132 L 875,158 L 855,178 L 825,195 L 790,205 L 750,210 L 710,205 L 672,195 L 645,185 L 622,180 L 645,168 L 655,148 L 648,125 L 625,108 L 590,98 L 548,105 L 542,140 L 548,162 L 568,178 L 548,172 L 528,155 L 515,130 L 530,120 L 542,105 L 548,85 L 545,68 L 548,62 Z"/>
-              <!-- Japan -->
-              <path d="M 852,105 L 862,100 L 870,110 L 865,120 L 855,118 Z"/>
-              <!-- SE Asia peninsula -->
-              <path d="M 790,205 L 808,218 L 812,240 L 802,255 L 790,248 L 785,228 Z"/>
-              <!-- Indonesia rough -->
-              <path d="M 790,268 L 820,262 L 840,270 L 838,280 L 815,282 L 792,276 Z"/>
-              <text x="728" y="135" class="map-label">Asia</text>
-            </g>
-
-            <!-- Oceania / Australia -->
-            <g class="map-region" id="reg-Oceania" onclick="pickContinent('Oceania')">
-              <path d="M 788,308 L 825,298 L 862,302 L 892,318 L 908,342 L 905,368 L 888,388 L 858,398 L 825,395 L 795,378 L 778,355 L 775,330 Z"/>
-              <!-- New Zealand -->
-              <path d="M 912,358 L 925,350 L 932,362 L 928,375 L 916,372 Z"/>
-              <text x="842" y="352" class="map-label">Oceania</text>
-            </g>
-
-            <!-- Greenland (decorative, not clickable) -->
-            <path d="M 175,18 L 200,15 L 218,22 L 215,35 L 198,40 L 178,35 Z" style="fill:rgba(255,255,255,0.03);stroke:rgba(255,255,255,0.06);stroke-width:1;pointer-events:none;"/>
-
-          </svg>
+          <div id="world-map-container" style="width:100%;border-radius:10px;background:var(--bg-inset);border:1px solid var(--line);margin-top:0.5rem;overflow:hidden;"></div>
           <div id="map-label" style="text-align:center;margin-top:0.6rem;font-size:11px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);min-height:16px;">Tap a region</div>
         </div>
       </div>
@@ -1489,29 +1428,11 @@ const C = [
 
 let vibe = '';
 let continent = '';
-let discMode = 'type';
+let discMode = 'type'; // mode tracker
 
-function switchMode(mode) {
-  discMode = mode;
-  document.getElementById('mode-type-btn').classList.toggle('active', mode === 'type');
-  document.getElementById('mode-cont-btn').classList.toggle('active', mode === 'continent');
-  document.getElementById('mode-type').style.display = mode === 'type' ? 'block' : 'none';
-  document.getElementById('mode-cont').style.display = mode === 'continent' ? 'block' : 'none';
-  vibe = ''; continent = '';
-  document.querySelectorAll('.vibe-card').forEach(c => c.classList.remove('on'));
-  document.querySelectorAll('.map-region').forEach(c => c.classList.remove('sel'));
-  const lbl = document.getElementById('map-label');
-  if (lbl) { lbl.textContent = 'Tap a region'; lbl.style.color = 'var(--text-dim)'; }
-}
+// switchMode defined below
 
-function pickContinent(c) {
-  document.querySelectorAll('.map-region').forEach(x => x.classList.remove('sel'));
-  const reg = document.getElementById('reg-' + c.replace(' ',''));
-  if (reg) reg.classList.add('sel');
-  continent = c;
-  const lbl = document.getElementById('map-label');
-  if (lbl) { lbl.textContent = c + ' selected'; lbl.style.color = 'var(--accent)'; }
-}
+// pickContinent defined below
 let count = parseInt(localStorage.getItem('fb_count') || '0');
 
 function animNum(el, to, ms = 900) {
@@ -1982,5 +1903,201 @@ document.querySelectorAll('.modal-overlay').forEach(el => {
   });
 });
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script>
+// ── REAL WORLD MAP ──
+const CONTINENT_COUNTRIES = {
+  'Americas': ['USA','CAN','MEX','BRA','ARG','CHL','COL','PER','VEN','ECU','BOL','PRY','URY','GUY','SUR','GTM','HND','SLV','NIC','CRI','PAN','CUB','DOM','HTI','JAM','TTO','BLZ','GLP','MTQ','PRI','VIR','BHS','BRB','LCA','VCT','GRD','ATG','KNA','DMA','ABW'],
+  'Europe': ['GBR','FRA','DEU','ITA','ESP','PRT','NLD','BEL','CHE','AUT','SWE','NOR','DNK','FIN','POL','CZE','SVK','HUN','ROU','BGR','GRC','HRV','SVN','SRB','BIH','MNE','ALB','MKD','LUX','IRL','ISL','EST','LVA','LTU','BLR','UKR','MDA','RUS','GEO','ARM','AZE','CYP','MLT','AND','MCO','LIE','SMR','VAT','XKX'],
+  'Africa': ['NGA','ETH','EGY','COD','TZA','ZAF','KEN','UGA','DZA','SDN','MAR','MOZ','GHA','AGO','MDG','CMR','CIV','NER','BFA','MLI','MWI','ZMB','SEN','SOM','ZWE','TCD','GIN','RWA','BEN','TUN','BDI','SSD','TOG','SLE','LBY','CG','LBR','CAF','MRT','ERI','NAM','GMB','BWA','GAB','LSO','GNB','GNQ','MUS','SWZ','DJI','COM','CPV','STP','SYC'],
+  'Asia': ['CHN','IND','IDN','PAK','BGD','JPN','PHL','VNM','THA','MMR','KOR','KHM','NPL','MYS','PRK','TWN','LKA','LAO','MNG','TJK','KGZ','TKM','UZB','KAZ','AFG','IRQ','IRN','SAU','YEM','SYR','JOR','ISR','LBN','OMN','ARE','QAT','KWT','BHR','TLS','BTN','MDV','SGP','BRN'],
+  'Middle East': ['SAU','IRN','IRQ','ISR','JOR','SYR','LBN','ARE','OMN','YEM','KWT','QAT','BHR','PSE'],
+  'Oceania': ['AUS','PNG','NZL','FJI','SLB','VUT','WSM','KIR','TON','FSM','PLW','MHL','NRU','TUV','COK','NIU']
+};
+
+const CONTINENT_COLORS = {
+  'Americas': '#d4a96a',
+  'Europe': '#d4a96a',
+  'Africa': '#d4a96a',
+  'Middle East': '#d4a96a',
+  'Asia': '#d4a96a',
+  'Oceania': '#d4a96a'
+};
+
+function getCountryContinent(iso) {
+  for (const [cont, countries] of Object.entries(CONTINENT_COUNTRIES)) {
+    if (cont === 'Middle East') continue; // handled separately
+    if (countries.includes(iso)) return cont;
+  }
+  // Check Middle East overlap
+  if (CONTINENT_COUNTRIES['Middle East'].includes(iso)) return 'Middle East';
+  return null;
+}
+
+function initWorldMap() {
+  const container = document.getElementById('world-map-container');
+  if (!container) return;
+
+  const width = container.offsetWidth || 520;
+  const height = Math.round(width * 0.52);
+
+  container.innerHTML = '';
+
+  const svg = d3.select('#world-map-container')
+    .append('svg')
+    .attr('viewBox', `0 0 ${width} ${height}`)
+    .attr('width', '100%')
+    .attr('height', 'auto')
+    .style('display', 'block')
+    .style('cursor', 'pointer');
+
+  // Ocean background
+  svg.append('rect')
+    .attr('width', width)
+    .attr('height', height)
+    .attr('fill', 'rgba(255,255,255,0.02)');
+
+  const projection = d3.geoNaturalEarth1()
+    .scale(width / 6.5)
+    .translate([width / 2, height / 2]);
+
+  const path = d3.geoPath().projection(projection);
+
+  // Load world topojson from CDN
+  d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(world => {
+    const countries = topojson.feature(world, world.objects.countries);
+    const numericToISO = {
+      '004':'AFG','008':'ALB','012':'DZA','024':'AGO','032':'ARG','036':'AUS','040':'AUT',
+      '050':'BGD','056':'BEL','064':'BTN','068':'BOL','076':'BRA','100':'BGR','104':'MMR',
+      '116':'KHM','120':'CMR','124':'CAN','140':'CAF','144':'LKA','152':'CHL','156':'CHN',
+      '170':'COL','180':'COD','188':'CRI','191':'HRV','192':'CUB','196':'CYP','203':'CZE',
+      '208':'DNK','214':'DOM','218':'ECU','818':'EGY','222':'SLV','231':'ETH','246':'FIN',
+      '250':'FRA','266':'GAB','276':'DEU','288':'GHA','300':'GRC','320':'GTM','324':'GIN',
+      '340':'HND','348':'HUN','356':'IND','360':'IDN','364':'IRN','368':'IRQ','372':'IRL',
+      '376':'ISR','380':'ITA','388':'JAM','392':'JPN','400':'JOR','398':'KAZ','404':'KEN',
+      '408':'PRK','410':'KOR','414':'KWT','418':'LAO','422':'LBN','430':'LBR','434':'LBY',
+      '440':'LTU','442':'LUX','450':'MDG','454':'MWI','458':'MYS','466':'MLI','484':'MEX',
+      '496':'MNG','504':'MAR','508':'MOZ','516':'NAM','524':'NPL','528':'NLD','558':'NIC',
+      '562':'NER','566':'NGA','578':'NOR','586':'PAK','591':'PAN','598':'PNG','600':'PRY',
+      '604':'PER','608':'PHL','616':'POL','620':'PRT','642':'ROU','643':'RUS','646':'RWA',
+      '682':'SAU','686':'SEN','694':'SLE','706':'SOM','710':'ZAF','724':'ESP','728':'SSD',
+      '752':'SWE','756':'CHE','760':'SYR','762':'TJK','764':'THA','768':'TGO','780':'TTO',
+      '788':'TUN','792':'TUR','800':'UGA','804':'UKR','784':'ARE','826':'GBR','840':'USA',
+      '858':'URY','860':'UZB','862':'VEN','704':'VNM','887':'YEM','894':'ZMB','716':'ZWE',
+      '012':'DZA','050':'BGD','246':'FIN','288':'GHA','368':'IRQ','384':'CIV','480':'MUS',
+      '072':'BWA','174':'COM','262':'DJI','232':'ERI','266':'GAB','270':'GMB','624':'GNB',
+      '426':'LSO','454':'MWI','478':'MRT','562':'NER','646':'RWA','686':'SEN','706':'SOM',
+      '729':'SDN','834':'TZA','800':'UGA','174':'COM','204':'BEN','854':'BFA'
+    };
+
+    // Draw countries
+    svg.selectAll('.country')
+      .data(countries.features)
+      .enter()
+      .append('path')
+      .attr('class', 'country')
+      .attr('d', path)
+      .attr('data-id', d => d.id)
+      .style('fill', d => {
+        const iso = numericToISO[String(d.id).padStart(3,'0')];
+        return 'rgba(255,255,255,0.07)';
+      })
+      .style('stroke', 'rgba(255,255,255,0.12)')
+      .style('stroke-width', '0.5')
+      .style('transition', 'fill 0.18s ease')
+      .on('mouseover', function(event, d) {
+        const iso = numericToISO[String(d.id).padStart(3,'0')];
+        const cont = getCountryContinent(iso);
+        if (!cont) return;
+        // Highlight all countries in that continent
+        svg.selectAll('.country').style('fill', dd => {
+          const diso = numericToISO[String(dd.id).padStart(3,'0')];
+          const dcont = getCountryContinent(diso);
+          return dcont === cont ? 'rgba(212,169,106,0.25)' : 'rgba(255,255,255,0.07)';
+        });
+        // Update label
+        const lbl = document.getElementById('map-label');
+        if (lbl) { lbl.textContent = cont; lbl.style.color = 'rgba(212,169,106,0.7)'; }
+      })
+      .on('mouseout', function() {
+        // Restore selected state
+        svg.selectAll('.country').style('fill', dd => {
+          const diso = numericToISO[String(dd.id).padStart(3,'0')];
+          const dcont = getCountryContinent(diso);
+          return dcont === continent ? 'rgba(212,169,106,0.3)' : 'rgba(255,255,255,0.07)';
+        });
+        const lbl = document.getElementById('map-label');
+        if (lbl && !continent) { lbl.textContent = 'Tap a region'; lbl.style.color = 'var(--text-dim)'; }
+        if (lbl && continent) { lbl.textContent = continent + ' selected'; lbl.style.color = 'var(--accent)'; }
+      })
+      .on('click', function(event, d) {
+        const iso = numericToISO[String(d.id).padStart(3,'0')];
+        const cont = getCountryContinent(iso);
+        if (!cont) return;
+        pickContinent(cont);
+        // Update fill for selected continent
+        svg.selectAll('.country').style('fill', dd => {
+          const diso = numericToISO[String(dd.id).padStart(3,'0')];
+          const dcont = getCountryContinent(diso);
+          return dcont === cont ? 'rgba(212,169,106,0.3)' : 'rgba(255,255,255,0.07)';
+        });
+      });
+
+    // Continent labels
+    const continentCentroids = {
+      'Americas': [-80, 10],
+      'Europe': [15, 52],
+      'Africa': [20, 5],
+      'Asia': [90, 45],
+      'Oceania': [135, -25]
+    };
+
+    Object.entries(continentCentroids).forEach(([name, coords]) => {
+      const proj = projection(coords);
+      if (!proj) return;
+      svg.append('text')
+        .attr('x', proj[0])
+        .attr('y', proj[1])
+        .attr('text-anchor', 'middle')
+        .style('fill', 'rgba(255,255,255,0.25)')
+        .style('font-size', '10px')
+        .style('font-family', 'var(--font-body)')
+        .style('letter-spacing', '0.1em')
+        .style('pointer-events', 'none')
+        .text(name.toUpperCase());
+    });
+
+  }).catch(err => {
+    console.error('Map load failed:', err);
+    container.innerHTML = '<div style="padding:1rem;text-align:center;font-size:12px;color:var(--text-dim);">Map unavailable</div>';
+  });
+}
+
+// Init map when continent mode is shown
+const origSwitchMode = switchMode;
+function switchMode(mode) {
+  discMode = mode;
+  document.getElementById('mode-type-btn').classList.toggle('active', mode === 'type');
+  document.getElementById('mode-cont-btn').classList.toggle('active', mode === 'continent');
+  document.getElementById('mode-type').style.display = mode === 'type' ? 'block' : 'none';
+  document.getElementById('mode-cont').style.display = mode === 'continent' ? 'block' : 'none';
+  vibe = ''; continent = '';
+  document.querySelectorAll('.vibe-card').forEach(c => c.classList.remove('on'));
+  const lbl = document.getElementById('map-label');
+  if (lbl) { lbl.textContent = 'Tap a region'; lbl.style.color = 'var(--text-dim)'; }
+  if (mode === 'continent') {
+    setTimeout(initWorldMap, 50);
+  }
+}
+
+function pickContinent(c) {
+  continent = c;
+  const lbl = document.getElementById('map-label');
+  if (lbl) { lbl.textContent = c + ' selected'; lbl.style.color = 'var(--accent)'; }
+}
+</script>
+
 </body>
 </html>
